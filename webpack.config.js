@@ -13,6 +13,7 @@ const assetProcessing = outDir => ({
 
 module.exports = {
   entry: './src/index',
+  mode: 'development',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
@@ -28,15 +29,13 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: ['babel-loader'],
+        use: ['babel-loader', {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-react', '@babel/preset-typescript'],
+          }
+        }],
         exclude: /node_modules/,
-        options: {
-          presets: ['@babel/preset-react', '@babel/preset-typescript'],
-          plugins: [
-            ['@babel/plugin-proposal-decorators', { 'legacy': true }],
-            [require('@babel/plugin-proposal-class-properties'), { 'loose': true }],
-          ],
-        },
       },
       {
         test: /\.css$/,
